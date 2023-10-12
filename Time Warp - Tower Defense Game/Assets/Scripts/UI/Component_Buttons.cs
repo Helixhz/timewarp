@@ -7,14 +7,38 @@ using UnityEngine.SceneManagement;
 
 public class Component_Buttons : MonoBehaviour
 {
-    public float   originalFontSize = 55f;
-    public Color defaultColor, highlightColor;
+    public float originalFontSize = 55f;
 
+    public Color defaultColor, highlightColor;
+    public GameObject[] menuButtons;   
+    
     [Space]
-    public GameObject[] buttons;   
+    
+    public TMP_Text      faseNameTMP;
+    public TMP_Text      faseDescTMP;
+    
+    public RectTransform fader;
+
+    public string[]      faseNames;
+    public string[]      faseDescriptions;
 
     // ==============================================
     // On Click
+    
+    public IEnumerator Transition()
+    {
+        float size = 0;
+
+        while(size < 1934)
+        {
+            size += 200f;
+
+            fader.anchoredPosition = new Vector2(fader.anchoredPosition.x + 100f, fader.anchoredPosition.y);
+            fader.sizeDelta = new Vector2(size, 1081f);
+
+            yield return null;
+        }
+    }
 
     public void OpenMenu(GameObject menu)
     {
@@ -35,8 +59,20 @@ public class Component_Buttons : MonoBehaviour
     }
 
     // ==============================================
-    // Highligths
+    // On Enter/On Exit
     
+    public void DisplayFaseInfo(int id)
+    {
+        faseNameTMP.text = faseNames[id];
+        faseDescTMP.text = faseDescriptions[id];
+    }
+
+    public void ResetFaseInfo()
+    {
+        faseNameTMP.text = "Escolha o nivel";
+        faseDescTMP.text = "";
+    }
+
     public void HighlightText(TMP_Text textTMP)
     {
         DisableHighligth();
@@ -47,7 +83,7 @@ public class Component_Buttons : MonoBehaviour
 
     public void DisableHighligth()
     {
-        foreach(GameObject btn in buttons)
+        foreach(GameObject btn in menuButtons)
         {
             TMP_Text textTMP = btn.transform.GetChild(0).GetComponent<TMP_Text>();
 
