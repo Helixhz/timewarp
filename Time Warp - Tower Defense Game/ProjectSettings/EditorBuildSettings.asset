@@ -11,4 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scene_Tutorial.unity
     guid: 90c6cfe65a6c3384395f073175f14591
+  - enabled: 1
+    path: Assets/Scenes/Scene_Florest.unity
+    guid: 6cffbfc06762e8e428cd83984ca94b78
+  - enabled: 1
+    path: Assets/Scenes/Scene_City.unity
+    guid: 81f2c7a28ccb82c4bad0b769f2fced0d
+  - enabled: 1
+    path: Assets/Scenes/Scene_Laboratory.unity
+    guid: 62328a0020cd0354b87c7f3529baf954
   m_configObjects: {}

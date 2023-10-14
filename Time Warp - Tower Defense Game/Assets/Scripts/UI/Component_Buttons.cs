@@ -6,46 +6,79 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Component_Buttons : MonoBehaviour
-{
-    public float originalFontSize = 55f;
+{   
+    [Header("Configuração do highligth nos textos")][Space]
+    public float         originalFontSize  = 55f;
+    public float         highlightFontSize = 65f;
 
-    public Color defaultColor, highlightColor;
-    public GameObject[] menuButtons;   
+    public Color         defaultColor;
+    public Color         highlightColor;
+
+    public GameObject[]  menuButtons;
+
+    [Space]
+
+    [Header("Efeito na troca de menus")][Space]
+    public RectTransform transitionIMG;
+    public bool          useTransition;   
     
     [Space]
     
+    [Header("Exibição das fases")][Space]
     public TMP_Text      faseNameTMP;
     public TMP_Text      faseDescTMP;
-    
-    public RectTransform fader;
 
     public string[]      faseNames;
     public string[]      faseDescriptions;
 
+    public GameObject[]  fasePreviewObjects;
+
     // ==============================================
     // On Click
-    
-    public IEnumerator Transition()
+
+    public void ActiveObject(GameObject obj)
+    {
+        obj.SetActive(true);
+    }
+
+    public void DesactiveObject(GameObject obj)
+    {
+        obj.SetActive(false);
+    }
+
+    public void OpenMenu(GameObject menu)
+    {
+        DisableHighligth();
+
+        if(useTransition)
+        {
+            StartCoroutine(Transition(menu));
+            return;
+        }
+
+        menu.SetActive(true);
+        gameObject.SetActive(false);
+    }
+
+    private IEnumerator Transition(GameObject menu)
     {
         float size = 0;
 
         while(size < 1934)
         {
-            size += 200f;
+            size += 300f;
 
-            fader.anchoredPosition = new Vector2(fader.anchoredPosition.x + 100f, fader.anchoredPosition.y);
-            fader.sizeDelta = new Vector2(size, 1081f);
+            transitionIMG.anchoredPosition = new Vector2(transitionIMG.anchoredPosition.x + 150f, transitionIMG.anchoredPosition.y);
+            transitionIMG.sizeDelta = new Vector2(size, 1081f);
 
             yield return null;
         }
-    }
 
-    public void OpenMenu(GameObject menu)
-    {
-        menu.SetActive(true);
         gameObject.SetActive(false);
+        menu.SetActive(true);
 
-        DisableHighligth();
+        transitionIMG.anchoredPosition = new Vector2(0f, transitionIMG.anchoredPosition.y);
+        transitionIMG.sizeDelta = new Vector2(0f, 1081f);
     }
 
     public void SceneLoader(string sceneName)
@@ -65,6 +98,7 @@ public class Component_Buttons : MonoBehaviour
     {
         faseNameTMP.text = faseNames[id];
         faseDescTMP.text = faseDescriptions[id];
+        fasePreviewObjects[id].SetActive(!fasePreviewObjects[id].activeSelf);
     }
 
     public void ResetFaseInfo()
@@ -77,7 +111,7 @@ public class Component_Buttons : MonoBehaviour
     {
         DisableHighligth();
         
-        textTMP.fontSize = 65f;
+        textTMP.fontSize = highlightFontSize;
         textTMP.color = highlightColor;
     }
 
