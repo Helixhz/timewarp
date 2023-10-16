@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class Manager_Menu : MonoBehaviour
 {
+    public delegate void WaveTimerEvent();
+    public event WaveTimerEvent WaveTimer;
+
     // ====================================================
 
     [Header("Buttons")]
@@ -43,6 +46,7 @@ public class Manager_Menu : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(CallTimer(2f));
         //VolumeSlider(0.2f);
     }
 
@@ -153,7 +157,7 @@ public class Manager_Menu : MonoBehaviour
             return;
         }
 
-        timerTMP.text = string.Format("Próxima wave em: {00:00:00}", timerCount);
+        timerTMP.text = string.Format("Próxima wave em: {00:00:00} segundos", timerCount);
         timerCount -= Time.deltaTime;
     }
 
@@ -165,6 +169,7 @@ public class Manager_Menu : MonoBehaviour
 
         yield return new WaitForSeconds(time);
 
+        WaveTimer();
         DesactiveObject(timerObject);
         callTimer = false;
     }

@@ -8,6 +8,8 @@ public class Manager_Events : MonoBehaviour
 
     private Manager_Menu        menuManager;
     private Manager_Market      marketManager;
+    private Manager_Level       levelManager;
+
     private Component_Tile[]    tiles;
 
     private void Awake()
@@ -16,6 +18,8 @@ public class Manager_Events : MonoBehaviour
 
         menuManager   = GetComponent<Manager_Menu>();
         marketManager = GetComponent<Manager_Market>();
+        levelManager  = GetComponent<Manager_Level>();
+
         tiles         = FindObjectsOfType<Component_Tile>();
     }
 
@@ -23,6 +27,7 @@ public class Manager_Events : MonoBehaviour
     {
         TilesEvents();
         MarketEvents();
+        MenuEvents();
     }
 
     private void MarketEvents()
@@ -37,6 +42,11 @@ public class Manager_Events : MonoBehaviour
             tile.SelectTile += marketManager.OnSelectTile;
             tile.BuyTower   += marketManager.OnBuyTower;
         }
+    }
+
+    private void MenuEvents()
+    {
+        menuManager.WaveTimer += levelManager.NewWave;
     }
 
     public void TowerEvents(Component_Tower _tower)
