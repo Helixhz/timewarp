@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Tile/Empty
+  - Tile/Busy
+  - Characters/Tower
+  - Characters/Enemy
   layers:
   - Default
   - TransparentFX
